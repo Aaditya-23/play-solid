@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/solid-router";
 import { waste } from "../../util";
 import { useQuery } from "@tanstack/solid-query";
-import { onCleanup } from "solid-js";
+import { onCleanup, Show } from "solid-js";
 
 export const Route = createFileRoute("/inbox/")({
   component: RouteComponent,
@@ -13,7 +13,9 @@ function RouteComponent() {
   return (
     <div>
       This is inbox
-      <div>{q.data}</div>
+      <Show when={q.isSuccess} fallback={<>Loading...</>}>
+        {q.data}
+      </Show>
     </div>
   );
 }

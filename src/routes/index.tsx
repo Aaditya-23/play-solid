@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/solid-query";
 import { createFileRoute } from "@tanstack/solid-router";
-import { onCleanup } from "solid-js";
+import { onCleanup, Show } from "solid-js";
 import { waste } from "../util";
 
 export const Route = createFileRoute("/")({
@@ -13,7 +13,9 @@ function RouteComponent() {
   return (
     <div>
       This is home
-      <div>{q.data}</div>
+      <Show when={q.isSuccess} fallback={<>Loading...</>}>
+        {q.data}
+      </Show>{" "}
     </div>
   );
 }
