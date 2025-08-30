@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/solid-router";
-import { waste } from "../../../util";
+import { waste } from "../../util";
 import { useQuery } from "@tanstack/solid-query";
 import { onCleanup } from "solid-js";
 
-export const Route = createFileRoute("/a/inbox/")({
+export const Route = createFileRoute("/inbox/")({
   component: RouteComponent,
 });
 

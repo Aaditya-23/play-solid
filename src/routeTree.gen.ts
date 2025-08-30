@@ -9,81 +9,58 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ARouteRouteImport } from './routes/a/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AIndexRouteImport } from './routes/a/index'
-import { Route as ASettingsIndexRouteImport } from './routes/a/settings/index'
-import { Route as AInboxIndexRouteImport } from './routes/a/inbox/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as InboxIndexRouteImport } from './routes/inbox/index'
 
-const ARouteRoute = ARouteRouteImport.update({
-  id: '/a',
-  path: '/a',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AIndexRoute = AIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ARouteRoute,
-} as any)
-const ASettingsIndexRoute = ASettingsIndexRouteImport.update({
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
-  getParentRoute: () => ARouteRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AInboxIndexRoute = AInboxIndexRouteImport.update({
+const InboxIndexRoute = InboxIndexRouteImport.update({
   id: '/inbox/',
   path: '/inbox/',
-  getParentRoute: () => ARouteRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/a': typeof ARouteRouteWithChildren
-  '/a/': typeof AIndexRoute
-  '/a/inbox': typeof AInboxIndexRoute
-  '/a/settings': typeof ASettingsIndexRoute
+  '/inbox': typeof InboxIndexRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/a': typeof AIndexRoute
-  '/a/inbox': typeof AInboxIndexRoute
-  '/a/settings': typeof ASettingsIndexRoute
+  '/inbox': typeof InboxIndexRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/a': typeof ARouteRouteWithChildren
-  '/a/': typeof AIndexRoute
-  '/a/inbox/': typeof AInboxIndexRoute
-  '/a/settings/': typeof ASettingsIndexRoute
+  '/inbox/': typeof InboxIndexRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/a' | '/a/' | '/a/inbox' | '/a/settings'
+  fullPaths: '/' | '/inbox' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/a' | '/a/inbox' | '/a/settings'
-  id: '__root__' | '/' | '/a' | '/a/' | '/a/inbox/' | '/a/settings/'
+  to: '/' | '/inbox' | '/settings'
+  id: '__root__' | '/' | '/inbox/' | '/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ARouteRoute: typeof ARouteRouteWithChildren
+  InboxIndexRoute: typeof InboxIndexRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
 }
 
 declare module '@tanstack/solid-router' {
   interface FileRoutesByPath {
-    '/a': {
-      id: '/a'
-      path: '/a'
-      fullPath: '/a'
-      preLoaderRoute: typeof ARouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -91,48 +68,27 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/a/': {
-      id: '/a/'
-      path: '/'
-      fullPath: '/a/'
-      preLoaderRoute: typeof AIndexRouteImport
-      parentRoute: typeof ARouteRoute
-    }
-    '/a/settings/': {
-      id: '/a/settings/'
+    '/settings/': {
+      id: '/settings/'
       path: '/settings'
-      fullPath: '/a/settings'
-      preLoaderRoute: typeof ASettingsIndexRouteImport
-      parentRoute: typeof ARouteRoute
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/a/inbox/': {
-      id: '/a/inbox/'
+    '/inbox/': {
+      id: '/inbox/'
       path: '/inbox'
-      fullPath: '/a/inbox'
-      preLoaderRoute: typeof AInboxIndexRouteImport
-      parentRoute: typeof ARouteRoute
+      fullPath: '/inbox'
+      preLoaderRoute: typeof InboxIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface ARouteRouteChildren {
-  AIndexRoute: typeof AIndexRoute
-  AInboxIndexRoute: typeof AInboxIndexRoute
-  ASettingsIndexRoute: typeof ASettingsIndexRoute
-}
-
-const ARouteRouteChildren: ARouteRouteChildren = {
-  AIndexRoute: AIndexRoute,
-  AInboxIndexRoute: AInboxIndexRoute,
-  ASettingsIndexRoute: ASettingsIndexRoute,
-}
-
-const ARouteRouteWithChildren =
-  ARouteRoute._addFileChildren(ARouteRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ARouteRoute: ARouteRouteWithChildren,
+  InboxIndexRoute: InboxIndexRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
