@@ -1,13 +1,7 @@
-import { createFileRoute } from "@tanstack/solid-router";
 import { waste } from "../../util";
 import { useQuery } from "@tanstack/solid-query";
-import { onCleanup } from "solid-js";
 
-export const Route = createFileRoute("/inbox/")({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
+export function Inbox() {
   const q = useQuery(() => ({ queryKey: ["inbox"], queryFn: () => waste() }));
 
   return (

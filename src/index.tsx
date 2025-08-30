@@ -1,45 +1,31 @@
-/* @refresh reload */
-import "./app.css";
-
-import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
-import { createRouter, RouterProvider } from "@tanstack/solid-router";
 import { render } from "solid-js/web";
+import { Route, Router } from "@solidjs/router";
+import { Root } from "./routes/__root";
+import { Home } from "./routes";
+import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import "./app.css";
+import { Inbox } from "./routes/inbox";
+import { Settings } from "./routes/settings";
 
-import { routeTree } from "./routeTree.gen";
+const wrapper = document.getElementById("root");
 
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      retry: 0,
-    },
-  },
-});
-
-const router = createRouter({
-  routeTree,
-  context: {
-    queryClient,
-  },
-  scrollRestoration: true,
-  defaultPreloadStaleTime: 0,
-});
-
-declare module "@tanstack/solid-router" {
-  interface Register {
-    router: typeof router;
-  }
+if (!wrapper) {
+  throw new Error("Wrapper div not found");
 }
 
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+const client = new QueryClient();
+
+render(
+  () => (
+    <QueryClientProvider client={client}>
+      <Router>
+        <Route path="/" component={Root}>
+          <Route path="/" component={Home} />
+          <Route path="/inbox" component={Inbox} />
+          <Route path="/settings" component={Settings} />
+        </Route>
+      </Router>
     </QueryClientProvider>
-  );
-}
-
-const root = document.getElementById("root");
-
-render(() => <App />, root!);
+  ),
+  wrapper
+);

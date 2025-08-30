@@ -1,13 +1,7 @@
 import { useQuery } from "@tanstack/solid-query";
-import { createFileRoute } from "@tanstack/solid-router";
-import { onCleanup } from "solid-js";
 import { waste } from "../util";
 
-export const Route = createFileRoute("/")({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
+export function Home(props: any) {
   const q = useQuery(() => ({ queryKey: ["a"], queryFn: () => waste() }));
 
   return (

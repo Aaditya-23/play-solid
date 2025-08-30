@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@solidjs/router": "^0.15.3",
     "@tailwindcss/vite": "^4.1.12",
     "@tanstack/solid-query": "^5.85.5",
-    "@tanstack/solid-router": "^1.131.29",
     "solid-js": "^1.9.8",
     "tailwindcss": "^4.1.12"
   },
